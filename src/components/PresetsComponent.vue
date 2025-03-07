@@ -5,7 +5,7 @@
         <b-form-group label="Preset: " label-for="preset">
           <b-form-select
             class="u-full-width"
-            v-bind:value="formStore.video.preset"
+            v-bind:value="value"
             @change="handleVideoPresetChange"
           >
             <optgroup v-for="(o, i) in presetOptions" :label="o.name" v-bind:key="i">
@@ -29,9 +29,10 @@
 <script setup lang="ts">
 import useFormStore from '@/stores/form'
 import presets from '../presets'
-import { objectKeys, recursiveMerge } from '@/libs/util/object'
-import type { Form } from '@/types/form'
+import { recursiveMerge } from '@/libs/util/object'
+import { ref } from 'vue'
 
+const value = ref<string | undefined>(undefined)
 const formStore = useFormStore()
 const presetOptions = presets.getPresetOptions()
 
@@ -51,7 +52,6 @@ async function handleVideoPresetChange(option: string) {
 
   formStore.$reset()
   formStore.$patch(recursiveMerge(formStore, data))
-
-  console.log(formStore)
+  value.value = option
 }
 </script>

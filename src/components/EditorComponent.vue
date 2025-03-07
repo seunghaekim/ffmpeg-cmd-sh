@@ -61,10 +61,8 @@
 </template>
 
 <script setup lang="ts">
+import FileIOComponent from './FileIOComponent.vue'
 import PresetsComponent from './PresetsComponent.vue'
-import useFormStore from '@/stores/form'
-
-const formStore = useFormStore()
 
 // const preset = reactive<Preset>({
 //   id: 'custom',
