@@ -8,7 +8,8 @@
         :key="`fragment-filter-${j}-${filterType(value)}`"
         v-for="(f, j) in filters"
         class="fragment filter"
-      >{{ f.value }}{{ j+1 === filters.length ? '' : ',' }}&nbsp;</span>
+        >{{ f.value }}{{ j + 1 === filters.length ? '' : ',' }}&nbsp;</span
+      >
     </template>
     <!-- Otherwise, create a normal fragment -->
     <template v-else>
@@ -32,16 +33,19 @@
   </span>
 </template>
 
-<script>
-export default {
-  name: 'CommandFragment',
-  props: ['value', 'filters', 'index'],
-  methods: {
-    filterType(filter) {
-      return filter === '-vf' ? 'vf' : 'af';
-    },
-  },
-};
+<script setup lang="ts">
+import { computed } from 'vue'
+import { PropType } from 'vue'
+
+const props = defineProps({
+  value: String,
+  filters: Array as PropType<Array<{ value: string; description?: string }>>,
+  index: Number,
+})
+
+const filterType = (filter: string) => {
+  return filter === '-vf' ? 'vf' : 'af'
+}
 </script>
 
 <style scoped>

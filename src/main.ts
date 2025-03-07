@@ -1,21 +1,15 @@
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-import App from './App.vue';
-import router from './router';
-import ws from './websocket';
-import store from './store';
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+import App from './App.vue'
+import router from './router'
+import BootstrapVue3 from 'bootstrap-vue-3'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 
-Vue.prototype.$store = store;
-Vue.prototype.$ws = ws;
+const app = createApp(App)
 
-Vue.use(BootstrapVue);
-
-Vue.config.productionTip = false;
-
-new Vue({
-  router,
-  render: (h) => h(App),
-}).$mount('#app');
+app.use(createPinia())
+app.use(router)
+app.use(BootstrapVue3)
+app.mount('#app')

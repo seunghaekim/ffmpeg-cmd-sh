@@ -1,14 +1,12 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
+import type { Form } from '@/types/form'
+import storage from '../libs/storage'
 
-import storage from '@/storage';
-
-const LOCALSTORAGE_PRESETS_KEY = 'presets';
+const LOCALSTORAGE_PRESETS_KEY = 'presets'
 
 interface IPresetOption {
-  name: string;
-  value: string;
-  data: string;
+  name: string
+  value: string
+  data: string
 }
 
 const presetOptions = [
@@ -22,10 +20,22 @@ const presetOptions = [
       { name: 'H264 Fast 1080p30', value: 'h264-fast-1080p30' },
       { name: 'H264 Fast 720p30', value: 'h264-fast-720p30' },
       { name: 'H264 Fast 480p30', value: 'h264-fast-480p30' },
-      { name: 'H264 High Profile Level 4.2 6000K 1080p', value: 'h264-high-profile-level-4.2-6000-1080p' },
-      { name: 'H264 Main Profile Level 4.0 3000K 720p', value: 'h264-main-profile-level-4.0-3000-720p' },
-      { name: 'H264 Main Profile Level 3.1 1000K 480p', value: 'h264-main-profile-level-3.1-1000-480p' },
-      { name: 'H264 Baseline Profile Level 3.0 600K 360p', value: 'h264-baseline-profile-level-3.0-600-360p' },
+      {
+        name: 'H264 High Profile Level 4.2 6000K 1080p',
+        value: 'h264-high-profile-level-4.2-6000-1080p',
+      },
+      {
+        name: 'H264 Main Profile Level 4.0 3000K 720p',
+        value: 'h264-main-profile-level-4.0-3000-720p',
+      },
+      {
+        name: 'H264 Main Profile Level 3.1 1000K 480p',
+        value: 'h264-main-profile-level-3.1-1000-480p',
+      },
+      {
+        name: 'H264 Baseline Profile Level 3.0 600K 360p',
+        value: 'h264-baseline-profile-level-3.0-600-360p',
+      },
       { name: 'VP9 3000K 1080p', value: 'vp9-3000-1080p' },
       { name: 'VP9 1500K 720p', value: 'vp9-1500-720p' },
     ],
@@ -33,69 +43,66 @@ const presetOptions = [
   {
     id: 'custom',
     name: 'Custom',
-    data: [
-      { name: 'Custom', value: 'custom' },
-    ],
+    data: [{ name: 'Custom', value: 'custom' }],
   },
   {
     id: 'saved',
     name: 'Saved (Local Storage)',
     data: [],
   },
-];
+]
 
 function getPresetOptions() {
-  const preset = presetOptions.find((o) => o.id === 'saved');
-  const items = <IPresetOption[]>storage.getItems(LOCALSTORAGE_PRESETS_KEY);
+  const preset = presetOptions.find((o) => o.id === 'saved')
+  const items = <IPresetOption[]>storage.getItems(LOCALSTORAGE_PRESETS_KEY)
   if (preset && items) {
-    preset.data = items;
+    preset.data = items
   }
-  return presetOptions;
+  return presetOptions
 }
 
-function getPreset(preset: string) {
-  const r = preset.replace('./', '').replace('.json', '');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const item = require(`./${r}`);
-  return item;
+async function getPreset(preset: string): Promise<Partial<Form>> {
+  const r = preset.replace('./', '').replace('.json', '')
+
+  return (await import(/* @vite-ignore */ `./${r}`)).default
 }
 
 function getPresetFromLocalStorage(preset: string) {
-  const data = <IPresetOption[]>storage.getItem(LOCALSTORAGE_PRESETS_KEY);
-  return data.find((o: { value: string; }) => o.value === preset);
+  const data = <IPresetOption[]>storage.getItem(LOCALSTORAGE_PRESETS_KEY)
+  return data.find((o: { value: string }) => o.value === preset)
 }
 
 function savePresetToLocalStorage(preset: string, savedPresetName: string, formData: string) {
-  const saved = <IPresetOption[]>storage.getItem(LOCALSTORAGE_PRESETS_KEY) || [];
+  const saved = <IPresetOption[]>storage.getItem(LOCALSTORAGE_PRESETS_KEY) || []
 
   // If a savedPresetName is provided, then we update the loaded preset, otherwise
   // create a new entry the stored presets array.
-  let presetName: string;
+  let presetName: string
   if (savedPresetName) {
-    presetName = preset;
-    const p = saved.find((o: { value: string; }) => o.value === presetName);
+    presetName = preset
+    const p = saved.find((o: { value: string }) => o.value === presetName)
     if (p) {
-      p.name = savedPresetName || preset;
-      p.data = formData;
+      p.name = savedPresetName || preset
+      p.data = formData
     }
   } else {
-    const date = new Date();
-    presetName = `preset-${date.toISOString()}`;
-    saved.push({ name: presetName, value: presetName, data: formData });
+    const date = new Date()
+    presetName = `preset-${date.toISOString()}`
+    saved.push({ name: presetName, value: presetName, data: formData })
   }
 
-  storage.setItem(LOCALSTORAGE_PRESETS_KEY, saved);
-  return presetName;
+  storage.setItem(LOCALSTORAGE_PRESETS_KEY, saved)
+  return presetName
 }
 
 function deletePreset(preset: string) {
-  const data = <IPresetOption[]>storage.getItem(LOCALSTORAGE_PRESETS_KEY);
-  const newData = data.filter((o) => o.value !== preset);
-  storage.setItem(LOCALSTORAGE_PRESETS_KEY, newData);
+  const data = <IPresetOption[]>storage.getItem(LOCALSTORAGE_PRESETS_KEY)
+  const newData = data.filter((o) => o.value !== preset)
+  storage.setItem(LOCALSTORAGE_PRESETS_KEY, newData)
 }
 
 function deleteAllPresets() {
-  storage.deleteAll(LOCALSTORAGE_PRESETS_KEY);
+  storage.deleteAll(LOCALSTORAGE_PRESETS_KEY)
 }
 
 export default {
@@ -105,4 +112,4 @@ export default {
   savePresetToLocalStorage,
   deletePreset,
   deleteAllPresets,
-};
+}

@@ -1,37 +1,44 @@
-<!--
-Component Layout:
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import pkgInfo from '../package.json'
+import useCommonStore from './stores/common'
+import QueueComponent from './components/QueueComponent.vue'
 
-App
-  GithubCorner            Github Badge and link to repository.
-  router-view
-    Editor                Container component.
-      Presets             Pre-defined and user-saved presets.
-      FileIO              Source and destination inputs.
-      Format              FFmpeg format options.
-      Video               FFmpeg video options.
-      Audio               FFmpeg audio options.
-      Filters             FFmpeg filter options.
-      Options             FFmpeg general options and logging. Saves to localstorage.
-      Command             Command building and rendering logic.
-        CommandFragment   Builds command fragments with tooltips.
-      Toolbar             User controls for copying command output and managing presets.
-      JsonViewer          View JSON formatted options.
-  Queue                   Queue manager for ffmpegd encodes.
--->
+const commonStore = useCommonStore()
+
+const name = pkgInfo.name
+const version = pkgInfo.version
+const tabIndex = ref(0)
+
+const wsReady = computed(() => {
+  return commonStore.wsConnected
+})
+
+const isEncoding = computed(() => {
+  return commonStore.isEncoding
+})
+
+const ffmpegdEnabled = computed(() => {
+  return commonStore.ffmpegEnabled
+})
+
+const onEncode = () => {
+  tabIndex.value++
+}
+</script>
+
 <template>
   <div>
     <b-navbar type="dark" variant="dark">
       <div class="container">
         <b-navbar-nav>
           <b-nav-item href="#">
-            <img src="../public/ffmpeg.svg" height="25" width="25" alt="FFmpeg Commander" />
+            <img src="/ffmpeg.svg" height="25" width="25" alt="FFmpeg Commander" />
             FFmpeg Commander
           </b-nav-item>
         </b-navbar-nav>
       </div>
     </b-navbar>
-
-    <GitHubCorner />
 
     <div id="app" class="container">
       <b-tabs align="right" content-class="mt-4" v-model="tabIndex">
@@ -39,10 +46,8 @@ App
           <router-view @onEncode="onEncode" />
         </b-tab>
         <b-tab title="Queue" v-if="ffmpegdEnabled">
-          <template #title>
-            <b-spinner small v-if="isEncoding"></b-spinner> Queue
-          </template>
-          <Queue />
+          <template #title> <b-spinner small v-if="isEncoding"></b-spinner> Queue </template>
+          <QueueComponent />
         </b-tab>
         <b-tab v-if="ffmpegdEnabled" disabled>
           <template #title>
@@ -67,45 +72,7 @@ App
   </div>
 </template>
 
-<script>
-import pkgInfo from '../package.json';
-import GitHubCorner from './components/GitHubCorner.vue';
-import Queue from './components/Queue.vue';
-
-export default {
-  name: 'app',
-  components: {
-    GitHubCorner,
-    Queue,
-  },
-  computed: {
-    wsReady() {
-      return this.$store.state.wsConnected;
-    },
-    isEncoding() {
-      return this.$store.state.isEncoding;
-    },
-    ffmpegdEnabled() {
-      return this.$store.state.ffmpegdEnabled;
-    },
-  },
-  data() {
-    return {
-      name: pkgInfo.name,
-      version: pkgInfo.version,
-      tabIndex: 0,
-    };
-  },
-  methods: {
-    onEncode() {
-      // eslint-disable-next-line no-plusplus
-      this.tabIndex++;
-    },
-  },
-};
-</script>
-
-<style>
+<style scoped>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
