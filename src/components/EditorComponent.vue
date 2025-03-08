@@ -19,7 +19,7 @@
       </b-tab>
 
       <b-tab title="Audio" class="mt-2">
-        <!-- <AudioComponent /> -->
+        <AudioComponent />
       </b-tab>
 
       <b-tab title="Filters" class="mt-2">
@@ -61,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+import AudioComponent from './AudioComponent.vue'
 import FileIOComponent from './FileIOComponent.vue'
 import FormatComponent from './FormatComponent.vue'
 import PresetsComponent from './PresetsComponent.vue'

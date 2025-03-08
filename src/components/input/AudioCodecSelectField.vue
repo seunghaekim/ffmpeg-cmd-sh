@@ -1,9 +1,8 @@
 <template>
   <b-form-group class="label" label="Codec:" label-for="codec">
-    <!-- TODO: handle Change -->
-    <b-form-select class="u-full-width" v-bind:value="formStore.audio.codec">
+    <b-form-select class="u-full-width" v-model="formStore.audio.codec">
       <option :value="null" disabled>-- Please select an option --</option>
-      <option v-for="o in options.audioChannels" :key="o.name" :value="o.value">
+      <option v-for="o in options.codecs.audio" :key="o.name" :value="o.value">
         {{ o.name }}
       </option>
     </b-form-select>
