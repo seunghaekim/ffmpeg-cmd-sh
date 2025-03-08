@@ -49,9 +49,9 @@ export interface VideoForm extends VideoEditItems, VideoBitrateItems, VideoScali
   preset: PresetValues
   pass: PassValues
   crf: number
-  width: '1080'
-  height: '1920'
-  codec_options: ''
+  width: string
+  height: string
+  codec_options: string
 }
 
 export interface AudioForm {

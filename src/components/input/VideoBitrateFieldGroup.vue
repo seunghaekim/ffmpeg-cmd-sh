@@ -1,27 +1,26 @@
 <template>
   <b-col v-for="field in fields" :key="field.key">
     <b-form-group class="label" :label="`${field.name}:`" :label-for="field.key">
-      <!-- TODO: handle change -->
       <b-form-input
-        v-if="field.key === 'gopsize' ? isSupported(form.video.codec) : true"
-        v-bind:value="form.video[field.key]"
+        v-model="formStore.video[field.key]"
         :placeholder="field.name"
+        :disabled="field.key === 'gopsize' ? !isSupported(formStore.video.codec) : false"
       />
     </b-form-group>
   </b-col>
 </template>
 
 <script setup lang="ts">
-import type { CodecVideoValues } from '@/libs/options'
-import type { VideoBitrateItems } from '@/stores/form'
 import useFormStore from '@/stores/form'
+import type { VideoBitrateItems } from '@/types/form'
+import type { CodecValues, CodecVideoValues } from '@/types/values'
 
-const form = useFormStore()
+const formStore = useFormStore()
 
 const fields: {
   name: string
   key: keyof VideoBitrateItems
-  supported?: string[]
+  supported?: CodecValues[]
 }[] = [
   {
     name: 'Bitrate',

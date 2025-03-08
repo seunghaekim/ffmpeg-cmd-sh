@@ -1,9 +1,8 @@
 <template>
   <b-form-group class="label" :label="`CRF: ${formStore.video.crf}`" label-for="crf">
-    <!-- TODO: handle change -->
     <b-form-input
       id="crf"
-      v-bind:value="formStore.video.crf"
+      v-model="formStore.video.crf"
       type="range"
       min="0"
       max="51"

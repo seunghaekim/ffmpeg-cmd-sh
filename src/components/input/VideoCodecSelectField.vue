@@ -1,9 +1,8 @@
 <template>
   <b-form-group label="Codec:" label-for="codecs.video">
-    <!-- TODO: handle change -->
-    <b-form-select class="u-full-width">
+    <b-form-select class="u-full-width" v-model="formStore.video.codec">
       <option :value="null" disabled>-- Please select an option --</option>
-      <option v-for="item in videoItems" :key="item.name" :value="item.value">
+      <option v-for="item in options.codecs.video" :key="item.name" :value="item.value">
         {{ item.name }}
       </option>
     </b-form-select>
@@ -12,8 +11,7 @@
 
 <script setup lang="ts">
 import options from '@/libs/options'
+import useFormStore from '@/stores/form'
 
-const {
-  codecs: { video: videoItems },
-} = options
+const formStore = useFormStore()
 </script>

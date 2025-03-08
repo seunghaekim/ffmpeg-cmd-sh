@@ -4,7 +4,11 @@
     <b-form-row>
       <b-col>
         <VideoCodecSelectField />
+      </b-col>
+      <b-col>
         <PresetSelectField />
+      </b-col>
+      <b-col>
         <PassOptionsSelectField />
       </b-col>
     </b-form-row>

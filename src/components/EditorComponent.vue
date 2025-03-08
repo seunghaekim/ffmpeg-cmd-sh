@@ -15,7 +15,7 @@
       </b-tab>
 
       <b-tab title="Video" class="mt-2">
-        <!-- <VideoComponent /> -->
+        <VideoComponent />
       </b-tab>
 
       <b-tab title="Audio" class="mt-2">
@@ -64,6 +64,7 @@
 import FileIOComponent from './FileIOComponent.vue'
 import FormatComponent from './FormatComponent.vue'
 import PresetsComponent from './PresetsComponent.vue'
+import VideoComponent from './VideoComponent.vue'
 
 // const preset = reactive<Preset>({
 //   id: 'custom',

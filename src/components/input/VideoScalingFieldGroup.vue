@@ -1,8 +1,7 @@
 <template>
   <b-col v-for="field in fields" :key="field.name">
     <b-form-group class="label" :label="`${field.name}:`" :label-for="field.key">
-      <!-- TODO: Handle change -->
-      <b-form-select class="u-full-width" v-bind:value="formStore.video[field.key]">
+      <b-form-select class="u-full-width" v-model="formStore.video[field.key]">
         <option :value="null" disabled>-- Please select an option --</option>
         <option v-for="o in field.options" :key="o.name" :value="o.value">{{ o.name }}</option>
       </b-form-select>
@@ -12,8 +11,8 @@
 
 <script setup lang="ts">
 import options from '@/libs/options'
-import type { VideoScalingItems } from '@/stores/form'
 import useFormStore from '@/stores/form'
+import type { VideoScalingItems } from '@/types/form'
 
 const formStore = useFormStore()
 

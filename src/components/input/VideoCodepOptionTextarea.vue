@@ -1,8 +1,7 @@
 <template>
-  <!-- TODO: handle change -->
   <b-form-textarea
     id="codec-options"
-    v-bind:value="formStore.video.codec_options"
+    v-model="formStore.video.codec_options"
     :placeholder="`Set optional -${formStore.video.codec}-params here to overwrite encoder options.`"
     rows="1"
     max-rows="6"
