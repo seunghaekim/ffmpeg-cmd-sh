@@ -33,8 +33,15 @@ export interface PresetsItem extends NameValueItem<PresetValues> {
   supported?: string[]
 }
 
+export type ProtocolNames = 'File' | 'FTP' | 'HTTP' | 'HTTPS' | 'RTMP' | 'SRT' | 'TCP' | 'UDP'
+
+export interface Protocol {
+  name: ProtocolNames
+  value: string
+}
+
 export interface Options {
-  protocols: NameValueItem<string>[]
+  protocols: Protocol[]
   containers: Containers
   clip: NameValueItem<boolean>[]
   codecs: Codec

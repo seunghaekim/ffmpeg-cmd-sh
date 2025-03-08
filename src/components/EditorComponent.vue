@@ -5,7 +5,7 @@
     <PresetsComponent />
 
     <!-- Input and Output protocol and filenames. -->
-    <!-- <FileIOComponent /> -->
+    <FileIOComponent />
 
     <!-- Tabs for each command building component.
     Format, Video, Audio, Filters and Options -->
