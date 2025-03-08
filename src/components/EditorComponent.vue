@@ -11,7 +11,7 @@
     Format, Video, Audio, Filters and Options -->
     <b-tabs class="mt-4">
       <b-tab title="Format" class="mt-2">
-        <!-- <FormatComponent /> -->
+        <FormatComponent />
       </b-tab>
 
       <b-tab title="Video" class="mt-2">
@@ -62,6 +62,7 @@
 
 <script setup lang="ts">
 import FileIOComponent from './FileIOComponent.vue'
+import FormatComponent from './FormatComponent.vue'
 import PresetsComponent from './PresetsComponent.vue'
 
 // const preset = reactive<Preset>({

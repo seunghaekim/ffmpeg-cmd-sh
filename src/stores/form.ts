@@ -23,7 +23,7 @@ interface FormActions {
   fromQueryParams(query: { [key: string]: string }): void
 }
 
-const useFormStore = defineStore<'form', FormState, FormGetters, FormActions>('form', {
+const useFormStore = defineStore<'form', FormState /*FormGetters, FormActions*/>('form', {
   state: () => ({
     io: {
       input: 'input.mp4',
@@ -87,77 +87,76 @@ const useFormStore = defineStore<'form', FormState, FormGetters, FormActions>('f
   }),
 
   getters: {
-    transformParams(state) {
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          brightness: isNotEmptyNumber(state.filters.brightness)
-            ? state.filters.brightness.toString()
-            : '',
-          contrast: isNotEmptyNumber(state.filters.contrast)
-            ? state.filters.contrast.toString()
-            : '',
-          saturation: isNotEmptyNumber(state.filters.saturation)
-            ? state.filters.saturation.toString()
-            : '',
-          gamma: isNotEmptyNumber(state.filters.gamma) ? state.filters.gamma.toString() : '',
-          acontrast: isNotEmptyNumber(state.filters.acontrast)
-            ? state.filters.acontrast.toString()
-            : '',
-        },
-        audio: {
-          ...state.audio,
-          bitrate: isNotEmptyNumber(state.audio.bitrate) ? state.audio.bitrate.toString() : '',
-          volume: isNotEmptyNumber(state.audio.volume) ? state.audio.volume.toString() : '',
-        },
-        video: {
-          ...state.video,
-          bitrate: isNotEmptyNumber(state.video.bitrate) ? state.video.bitrate.toString() : '',
-          minrate: isNotEmptyNumber(state.video.minrate) ? state.video.minrate.toString() : '',
-          maxrate: isNotEmptyNumber(state.video.maxrate) ? state.video.maxrate.toString() : '',
-          bufsize: isNotEmptyNumber(state.video.bufsize) ? state.video.bufsize.toString() : '',
-          gopsize: isNotEmptyNumber(state.video.gopsize) ? state.video.gopsize.toString() : '',
-          crf: isNotEmptyNumber(state.video.crf) ? state.video.crf.toString() : '',
-        },
-        format: {
-          ...state.format,
-          startTime: state.format.startTime ?? '',
-          stopTime: state.format.stopTime ?? '',
-        },
-        options: {
-          ...state.options,
-          extra: state.options.extra.join(','),
-        },
-      }
-    },
-    opt() {
-      try {
-        return util.transform(this.transformParams)
-      } catch (e) {
-        console.error({ e })
-        throw e
-      }
-    },
-    command() {
-      return ffmpeg.build(this.opt)
-    },
-    queryParams() {
-      return util.transformToQueryParams(this.transformParams)
-    },
-    transformToJson() {
-      return util.transformToJSON(this.transformParams)
-    },
+    // transformParams(state) {
+    //   return {
+    //     ...state,
+    //     filters: {
+    //       ...state.filters,
+    //       brightness: isNotEmptyNumber(state.filters.brightness)
+    //         ? state.filters.brightness.toString()
+    //         : '',
+    //       contrast: isNotEmptyNumber(state.filters.contrast)
+    //         ? state.filters.contrast.toString()
+    //         : '',
+    //       saturation: isNotEmptyNumber(state.filters.saturation)
+    //         ? state.filters.saturation.toString()
+    //         : '',
+    //       gamma: isNotEmptyNumber(state.filters.gamma) ? state.filters.gamma.toString() : '',
+    //       acontrast: isNotEmptyNumber(state.filters.acontrast)
+    //         ? state.filters.acontrast.toString()
+    //         : '',
+    //     },
+    //     audio: {
+    //       ...state.audio,
+    //       bitrate: isNotEmptyNumber(state.audio.bitrate) ? state.audio.bitrate.toString() : '',
+    //       volume: isNotEmptyNumber(state.audio.volume) ? state.audio.volume.toString() : '',
+    //     },
+    //     video: {
+    //       ...state.video,
+    //       bitrate: isNotEmptyNumber(state.video.bitrate) ? state.video.bitrate.toString() : '',
+    //       minrate: isNotEmptyNumber(state.video.minrate) ? state.video.minrate.toString() : '',
+    //       maxrate: isNotEmptyNumber(state.video.maxrate) ? state.video.maxrate.toString() : '',
+    //       bufsize: isNotEmptyNumber(state.video.bufsize) ? state.video.bufsize.toString() : '',
+    //       gopsize: isNotEmptyNumber(state.video.gopsize) ? state.video.gopsize.toString() : '',
+    //       crf: isNotEmptyNumber(state.video.crf) ? state.video.crf.toString() : '',
+    //     },
+    //     format: {
+    //       ...state.format,
+    //       startTime: state.format.startTime ?? '',
+    //       stopTime: state.format.stopTime ?? '',
+    //     },
+    //     options: {
+    //       ...state.options,
+    //       extra: state.options.extra.join(','),
+    //     },
+    //   }
+    // },
+    // opt() {
+    //   try {
+    //     return util.transform(this.transformParams)
+    //   } catch (e) {
+    //     console.error({ e })
+    //     throw e
+    //   }
+    // },
+    // command() {
+    //   return ffmpeg.build(this.opt)
+    // },
+    // queryParams() {
+    //   return util.transformToQueryParams(this.transformParams)
+    // },
+    // transformToJson() {
+    //   return util.transformToJSON(this.transformParams)
+    // },
   },
   actions: {
-    fromQueryParams(query: { [key: string]: string }) {
-      const params = cloneDeep(this.transformParams)
-      const transfomed = util.transformFromQueryParams(params, query)
-
-      this.$patch((state) => {
-        Object.assign(state, transfomed)
-      })
-    },
+    // fromQueryParams(query: { [key: string]: string }) {
+    //   const params = cloneDeep(this.transformParams)
+    //   const transfomed = util.transformFromQueryParams(params, query)
+    //   this.$patch((state) => {
+    //     Object.assign(state, transfomed)
+    //   })
+    // },
   },
 })
 
