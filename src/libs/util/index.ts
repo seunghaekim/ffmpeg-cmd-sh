@@ -1,8 +1,8 @@
 import codecMap from '@/libs/codecs'
 import transform from './libs/transform'
-import type { IFFMpegOptionsForm } from '../../types'
+import type { UtilOptions } from '../../types'
 
-function transformToJSON(formData: IFFMpegOptionsForm) {
+function transformToJSON(formData: UtilOptions) {
   const { format, video, audio, filters } = formData
 
   const json = {
@@ -62,7 +62,7 @@ function transformToJSON(formData: IFFMpegOptionsForm) {
   return json
 }
 
-function transformFromQueryParams(form: IFFMpegOptionsForm, query: { [key: string]: string }) {
+function transformFromQueryParams(form: UtilOptions, query: { [key: string]: string }) {
   form.format.container = query['format.container'] || form.format.container
   form.format.clip = query['format.clip'] === 'true' || form.format.clip
   form.format.startTime = query['format.startTime'] || form.format.startTime
@@ -115,7 +115,7 @@ function transformFromQueryParams(form: IFFMpegOptionsForm, query: { [key: strin
   return form
 }
 
-function transformToQueryParams(form: IFFMpegOptionsForm) {
+function transformToQueryParams(form: UtilOptions) {
   const { format, video, audio, filters } = form
   const params = {
     ...(format.container !== 'mp4' && { 'format.container': format.container }),

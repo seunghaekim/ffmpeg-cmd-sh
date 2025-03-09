@@ -1,9 +1,8 @@
 <template>
   <b-form-group class="label" :label="`gamma: ${formStore.filters.gamma}`" label-for="gamma">
-    <!-- TODO: handle update -->
     <b-form-input
       id="gamma"
-      v-bind:value="formStore.filters.gamma"
+      v-model="formStore.filters.gamma"
       type="range"
       :min="min"
       :max="max"

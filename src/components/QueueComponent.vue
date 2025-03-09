@@ -114,9 +114,9 @@
 
 <script setup lang="ts">
 import storage from '../libs/storage'
-import useCommonStore from '../stores/common'
+import useControlStore from '../stores/control'
 
-const store = useCommonStore()
+const store = useControlStore()
 const WS_INTERVAL = 5000
 const DEFAULT_VIDEO_HOST = 'http://127.0.0.1:8080'
 const Status = {

@@ -1,7 +1,6 @@
 <template>
   <b-form-group class="label" label="deinterlace:" label-for="deinterlace">
-    <!-- TODO: handle update -->
-    <b-form-select class="u-full-width" v-bind:value="formStore.filters.deinterlace">
+    <b-form-select class="u-full-width" v-model="formStore.filters.deinterlace">
       <option :value="null" disabled>-- Please select an option --</option>
       <option v-for="o in options.deinterlace" :key="o.name" :value="o.value">{{ o.name }}</option>
     </b-form-select>

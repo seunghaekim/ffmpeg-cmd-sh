@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import pkgInfo from '../package.json'
-import useCommonStore from './stores/common'
+import useControlStore from './stores/control'
 import QueueComponent from './components/QueueComponent.vue'
 
-const commonStore = useCommonStore()
+const commonStore = useControlStore()
 
 const name = pkgInfo.name
 const version = pkgInfo.version
@@ -61,11 +61,14 @@ const onEncode = () => {
     <footer class="container mt-4 text-center">
       <hr />
       <div class="text-muted">
-        <ul>
+        <ul class="d-flex">
           <li>{{ name }}-{{ version }}</li>
-          <li><a href="https://github.com/alfg/ffmpeg-commander/issues">Report a Bug</a></li>
+          <li><a href="https://github.com/seunghaekim/ffmpeg-cmd-sh/issues">Report a Bug</a></li>
           <li><a href="https://ffmpeg.org/ffmpeg.html">FFmpeg Documentation</a></li>
-          <li class="float-right">Built with ❤ by <a href="https://github.com/alfg">alfg</a></li>
+          <li :style="{ 'margin-left': 'auto' }">
+            Built from <a href="https://github.com/alfg/ffmpeg-commander">FFmpeg Commander</a> by
+            <a href="https://github.com/alfg">alfg</a>
+          </li>
         </ul>
       </div>
     </footer>

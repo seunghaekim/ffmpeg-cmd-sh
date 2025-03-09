@@ -1,5 +1,54 @@
+import { objectKeys } from './util/object'
+
 export interface IFFmpegOptions {
-  [key: string]: string
+  input?: string
+  output?: string
+  container?: string
+  clip?: boolean
+  startTime?: string
+  stopTime?: string
+  vcodec?: string
+  preset?: string
+  bitrate?: string
+  minrate?: string
+  maxrate?: string
+  bufsize?: string
+  gopsize?: string
+  pixelFormat?: string
+  frameRate?: string
+  tune?: string
+  profile?: string
+  level?: string
+  aspect?: string
+  crf?: string
+  pass?: string
+  faststart?: boolean
+  codecOptions?: string
+  acodec?: string
+  sampleRate?: string
+  channel?: string
+  quality?: string
+  audioBitrate?: string
+  speed?: string
+  size?: string
+  width?: string
+  height?: string
+  format?: string
+  scaling?: string
+  deband?: boolean
+  deshake?: boolean
+  deflicker?: boolean
+  dejudder?: boolean
+  denoise?: string
+  deinterlace?: string
+  contrast?: string
+  brightness?: string
+  saturation?: string
+  gamma?: string
+  volume?: string
+  acontrast?: string
+  extra?: string[]
+  loglevel?: string
 }
 
 const formatOptionsMap = {
@@ -32,7 +81,7 @@ function setFlagsFromMap(map: IFFmpegOptions, options: IFFmpegOptions): string[]
   const flags: string[] = []
   // Set flags by adding provided options from the map parameter and adding the
   // value to the flags array.
-  Object.keys(map).forEach((o) => {
+  objectKeys(map).forEach((o) => {
     if (options[o] && options[o] !== 'none' && options[o] !== 'auto') {
       const arg = [map[o], options[o]]
       flags.push(...arg)
@@ -137,23 +186,23 @@ function setVideoFilters(options: IFFmpegOptions) {
 
   // EQ Filters.
   const eq = []
-  if (parseInt(options.contrast, 10) !== 0) {
-    const arg = [`contrast=${parseInt(options.contrast, 10) / 100 + 1}`]
+  if (parseInt(options.contrast || '0', 10) !== 0) {
+    const arg = [`contrast=${parseInt(options.contrast || '0', 10) / 100 + 1}`]
     eq.push(...arg)
   }
 
-  if (parseInt(options.brightness, 10) !== 0) {
-    const arg = [`brightness=${parseInt(options.brightness, 10) / 100}`]
+  if (parseInt(options.brightness || '0', 10) !== 0) {
+    const arg = [`brightness=${parseInt(options.brightness || '0', 10) / 100}`]
     eq.push(...arg)
   }
 
-  if (parseInt(options.saturation, 10) !== 0) {
-    const arg = [`saturation=${parseInt(options.saturation, 10)}`]
+  if (parseInt(options.saturation || '0', 10) !== 0) {
+    const arg = [`saturation=${parseInt(options.saturation || '0', 10)}`]
     eq.push(...arg)
   }
 
-  if (parseInt(options.gamma, 10) !== 0) {
-    const arg = [`gamma=${parseInt(options.gamma, 10) / 10}`]
+  if (parseInt(options.gamma || '0', 10) !== 0) {
+    const arg = [`gamma=${parseInt(options.gamma || '0', 10) / 10}`]
     eq.push(...arg)
   }
 
@@ -169,13 +218,13 @@ function setVideoFilters(options: IFFmpegOptions) {
 function setAudioFilters(options: IFFmpegOptions): string {
   const af = []
 
-  if (options.volume && parseInt(options.volume, 10) !== 100) {
-    const arg = [`volume=${parseInt(options.volume, 10) / 100}`]
+  if (options.volume && parseInt(options.volume || '100', 10) !== 100) {
+    const arg = [`volume=${parseInt(options.volume || '100', 10) / 100}`]
     af.push(...arg)
   }
 
-  if (options.acontrast && parseInt(options.acontrast, 10) !== 33) {
-    const arg = [`acontrast=${parseInt(options.acontrast, 10) / 100}`]
+  if (options.acontrast && parseInt(options.acontrast || '33', 10) !== 33) {
+    const arg = [`acontrast=${parseInt(options.acontrast || '33', 10) / 100}`]
     af.push(...arg)
   }
 
@@ -215,7 +264,7 @@ function setVideoFlags(options: IFFmpegOptions) {
   //
   if (options.crf !== '0' && options.pass === 'crf') {
     const arg = ['-crf', options.crf]
-    flags.push(...arg)
+    flags.push(...shouldBeToBe(arg))
   }
 
   if (options.faststart) {
@@ -223,8 +272,8 @@ function setVideoFlags(options: IFFmpegOptions) {
     flags.push(...arg)
   }
 
-  if (options.codecOptions && ['libx264', 'libx265'].includes(options.vcodec)) {
-    const arg = [`-${options.vcodec.replace('lib', '')}-params`, options.codecOptions]
+  if (options.codecOptions && options.vcodec && ['libx264', 'libx265'].includes(options.vcodec)) {
+    const arg = [`-${options.vcodec?.replace('lib', '')}-params`, options.codecOptions]
     flags.push(...arg)
   }
 
@@ -244,7 +293,7 @@ function setAudioFlags(options: IFFmpegOptions) {
 
   if (options.quality && options.quality !== 'auto') {
     const arg = ['-b:a', options.quality === 'custom' ? options.audioBitrate : options.quality]
-    flags.push(...arg)
+    flags.push(...shouldBeToBe(arg))
   }
   return flags
 }
@@ -292,32 +341,32 @@ function build(opt: IFFmpegOptions): string {
   // Extra flags.
   const extra = []
 
-  if (options.extra.includes('f')) {
+  if (options.extra?.includes('f') && container) {
     const arg = ['-f', container]
     extra.push(...arg)
   }
 
-  if (options.extra.includes('y')) {
+  if (options.extra?.includes('y')) {
     const arg = ['-y']
     extra.push(...arg)
   }
 
-  if (options.extra.includes('n')) {
+  if (options.extra?.includes('n')) {
     const arg = ['-n']
     extra.push(...arg)
   }
 
-  if (options.extra.includes('progress')) {
+  if (options.extra?.includes('progress')) {
     const arg = ['-progress pipe:1']
     extra.push(...arg)
   }
 
-  if (options.extra.includes('hide_banner')) {
+  if (options.extra?.includes('hide_banner')) {
     const arg = ['-hide_banner']
     extra.push(...arg)
   }
 
-  if (options.extra.includes('report')) {
+  if (options.extra?.includes('report')) {
     const arg = ['-report']
     extra.push(...arg)
   }
@@ -331,8 +380,12 @@ function build(opt: IFFmpegOptions): string {
   extra.push(output)
 
   // Push all flags and join them as a space separated string.
-  flags.push(...extra)
+  flags.push(...shouldBeToBe(extra))
   return flags.join(' ')
+}
+
+function shouldBeToBe<T>(values: (T | undefined)[]) {
+  return values.filter((item): item is T => item !== undefined)
 }
 
 export default {

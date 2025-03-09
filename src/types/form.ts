@@ -7,9 +7,13 @@ import type {
   CodecSpeedValues,
   CodecVideoValues,
   ContainerValues,
+  FilterDeinterlaceValues,
+  FilterDenoiseValues,
   FormatValues,
   FrameRateValues,
   LevelValues,
+  OptionsExtraValues,
+  OptionsLogLevelValues,
   PassValues,
   PixelFormatValues,
   PresetValues,
@@ -77,20 +81,20 @@ export interface Form {
   video: VideoForm
   audio: AudioForm
   filters: {
-    deband: false
-    deshake: false
-    deflicker: false
-    dejudder: false
-    denoise: 'none'
-    deinterlace: 'none'
-    brightness: 0
-    contrast: 0
-    saturation: 0
-    gamma: 0
-    acontrast: 33
+    deband: boolean
+    deshake: boolean
+    deflicker: boolean
+    dejudder: boolean
+    denoise: FilterDenoiseValues
+    deinterlace: FilterDeinterlaceValues
+    brightness: number
+    contrast: number
+    saturation: number
+    gamma: number
+    acontrast: number
   }
   options: {
-    extra: []
-    loglevel: 'none'
+    extra: OptionsExtraValues[]
+    loglevel: OptionsLogLevelValues
   }
 }

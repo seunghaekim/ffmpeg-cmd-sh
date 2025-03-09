@@ -64,7 +64,7 @@ interface Options {
   loglevel: string
 }
 
-export interface IFFMpegOptionsForm {
+export interface UtilOptions {
   io: IO
   format: Format
   video: Video

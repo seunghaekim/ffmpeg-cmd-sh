@@ -4,10 +4,9 @@
     :label="`brightness: ${formStore.filters.brightness}`"
     label-for="brightness"
   >
-    <!-- TODO: handle update -->
     <b-form-input
       id="brightness"
-      v-bind:value="formStore.filters.brightness"
+      v-model="formStore.filters.brightness"
       type="range"
       :min="min"
       :max="max"

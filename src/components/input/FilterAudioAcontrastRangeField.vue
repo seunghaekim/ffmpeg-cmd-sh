@@ -4,10 +4,9 @@
     :label="`acontrast: ${formStore.filters.acontrast}`"
     label-for="acontrast"
   >
-    <!-- TODO: handle update -->
     <b-form-input
       id="acontrast"
-      v-bind:value="formStore.filters.acontrast"
+      v-model="formStore.filters.acontrast"
       type="range"
       :min="min"
       :max="max"

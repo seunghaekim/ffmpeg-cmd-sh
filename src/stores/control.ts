@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia'
 
-const useCommonStore = defineStore('common', {
+const useControlStore = defineStore('control', {
   state: () => ({
     wsConnected: false,
     isEncoding: false,
     ffmpegEnabled: false,
+
+    showJson: false,
   }),
 
   actions: {
@@ -21,4 +23,4 @@ const useCommonStore = defineStore('common', {
   },
 })
 
-export default useCommonStore
+export default useControlStore

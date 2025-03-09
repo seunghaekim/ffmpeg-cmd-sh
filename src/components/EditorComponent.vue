@@ -23,48 +23,42 @@
       </b-tab>
 
       <b-tab title="Filters" class="mt-2">
-        <!-- <FiltersComponent /> -->
+        <FiltersComponent />
       </b-tab>
 
       <b-tab title="Options" class="mt-2">
-        <!-- <OptionsComponent /> -->
+        <OptionsComponent />
       </b-tab>
     </b-tabs>
     <hr />
 
     <!-- FFmpeg generated command output with tooltips. -->
-    <!-- <CommandComponent /> -->
+    <CommandComponent />
     <p class="disclaimer">
       *Generated options may vary based on your FFmpeg version and build configuration. Tested on
       version 4.3.1.
     </p>
 
-    <!-- Hidden textarea so we can use the browser copy function. -->
-    <div class="hidden-cmd">
-      <!-- <b-form-textarea
-        ref="code"
-        v-bind:value="formStore.command"
-        rows="0"
-        max-rows="0"
-        plaintext
-      ></b-form-textarea> -->
-    </div>
-
     <!-- Toolbar is the set of controls for copying the command output,
     saving and deleting presets. -->
-    <!-- <ToolbarComponent v-model="controls" @reset="reset" @save="save" @toggleJSON="toggleJSON" /> -->
+    <ToolbarComponent />
 
     <!-- JSON formatted viewer so the user can view or copy the configured
     JSON output for their generated commands. -->
-    <!-- <JsonViewerComponent /> -->
+    <JsonViewerComponent />
   </div>
 </template>
 
 <script setup lang="ts">
 import AudioComponent from './AudioComponent.vue'
+import CommandComponent from './CommandComponent.vue'
 import FileIOComponent from './FileIOComponent.vue'
+import FiltersComponent from './FiltersComponent.vue'
 import FormatComponent from './FormatComponent.vue'
+import JsonViewerComponent from './JsonViewerComponent.vue'
+import OptionsComponent from './OptionsComponent.vue'
 import PresetsComponent from './PresetsComponent.vue'
+import ToolbarComponent from './ToolbarComponent.vue'
 import VideoComponent from './VideoComponent.vue'
 
 // const preset = reactive<Preset>({
@@ -109,16 +103,6 @@ import VideoComponent from './VideoComponent.vue'
 //   Object.assign(formStore, clone(defaultForm))
 //   preset.id = 'custom'
 //   preset.name = null
-// }
-
-// const save = (saveNew = false) => {
-//   if (saveNew) {
-//     preset.name = null
-//   }
-//   // const presetName = presets.savePresetToLocalStorage(preset.id, preset.name, form)
-//   // presets = presets.getPresetOptions()
-//   // preset.id = presetName
-//   // preset.name = preset.name || preset.id
 // }
 
 // const toggleJSON = () => {

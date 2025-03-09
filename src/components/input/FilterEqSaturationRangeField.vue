@@ -4,10 +4,9 @@
     :label="`saturation: ${formStore.filters.saturation}`"
     label-for="saturation"
   >
-    <!-- TODO: handle update -->
     <b-form-input
       id="saturation"
-      v-bind:value="formStore.filters.saturation"
+      v-model="formStore.filters.saturation"
       type="range"
       :min="min"
       :max="max"

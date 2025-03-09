@@ -4,9 +4,13 @@ import type {
   CodecValues,
   ContainerAudioValues,
   ContainerVideoValues,
+  FilterDeinterlaceValues,
+  FilterDenoiseValues,
   FormatValues,
   FrameRateValues,
   LevelValues,
+  OptionsExtraValues,
+  OptionsLogLevelValues,
   PassValues,
   PixelFormatValues,
   PresetValues,
@@ -66,10 +70,10 @@ export interface Options {
   deshake: NameValueItem<boolean>[]
   deflicker: NameValueItem<boolean>[]
   dejudder: NameValueItem<boolean>[]
-  denoise: NameValueItem<string>[]
-  deinterlace: NameValueItem<string>[]
-  extraOptions: { text: string; value: string }[]
-  logLevels: NameValueItem<string>[]
+  denoise: NameValueItem<FilterDenoiseValues>[]
+  deinterlace: NameValueItem<FilterDeinterlaceValues>[]
+  extraOptions: { text: string; value: OptionsExtraValues }[]
+  logLevels: NameValueItem<OptionsLogLevelValues>[]
 }
 
 export interface Containers {

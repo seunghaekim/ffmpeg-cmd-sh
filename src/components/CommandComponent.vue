@@ -33,11 +33,17 @@ import CommandFragment from './CommandFragment.vue'
 
 import { computed } from 'vue'
 import useFormStore from '@/stores/form'
+import ffmpeg from '@/libs/ffmpeg'
+import formAdapter from '@/libs/formAdapter'
 
 const formStore = useFormStore()
+const command = computed(() => {
+  const options = formAdapter.ffmpegOptionsFromForm(formStore.$state)
+  return ffmpeg.build(options)
+})
 
 const renderCmd = computed(() => {
-  return getToolTips(formStore.command)
+  return getToolTips(command.value)
 })
 
 function getToolTips(commandsStr: string) {

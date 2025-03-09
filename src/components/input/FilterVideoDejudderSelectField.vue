@@ -1,7 +1,6 @@
 <template>
-  <b-form-group class="label" label="dejudder:" label-for="dejudder">
-    <!-- TODO: handle update -->
-    <b-form-select class="u-full-width" v-bind:value="formStore.filters.dejudder">
+  <b-form-group class="label" label="Dejudder:" label-for="dejudder">
+    <b-form-select class="u-full-width" v-model="formStore.filters.dejudder">
       <option :value="null" disabled>-- Please select an option --</option>
       <option v-for="o in options.dejudder" :key="o.name" :value="o.value">{{ o.name }}</option>
     </b-form-select>

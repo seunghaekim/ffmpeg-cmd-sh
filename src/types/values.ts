@@ -201,3 +201,26 @@ export type CodeAudioValues =
   | 'pcm'
   | 'copy'
   | 'none'
+
+export type FilterDenoiseValues = 'none' | 'default' | 'light' | 'medium' | 'heavy'
+
+export type FilterDeinterlaceValues =
+  | 'none'
+  | 'frame'
+  | 'field'
+  | 'frame_nospatial'
+  | 'field_nospatial'
+
+export type OptionsExtraValues = 'f' | 'y' | 'n' | 'progress' | 'hide_banner' | 'report'
+
+export type OptionsLogLevelValues =
+  | 'none'
+  | 'quiet'
+  | 'panic'
+  | 'fatal'
+  | 'error'
+  | 'warning'
+  | 'info'
+  | 'verbose'
+  | 'debug'
+  | 'trace'

@@ -1,4 +1,4 @@
-import type { IFFMpegOptionsForm } from '@/types'
+import type { UtilOptions } from '@/types'
 import codecMap from '@/libs/codecs'
 import type { IFFmpegOptions } from '@/libs/ffmpeg'
 
@@ -54,7 +54,7 @@ interface TransformResult extends IFFmpegOptions {
 }
 
 // Transforms the form options to ffmpeg build options.
-export default function transform(formData: IFFMpegOptionsForm): TransformResult {
+export default function transform(formData: UtilOptions): TransformResult {
   const { io, format, video, audio, filters, options } = formData
 
   return {
