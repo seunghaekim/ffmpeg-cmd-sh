@@ -298,6 +298,91 @@ function setAudioFlags(options: IFFmpegOptions) {
   return flags
 }
 
+function flags(opt: IFFmpegOptions): string[] {
+  const options = opt || {}
+
+  const { input, output, container } = options
+
+  const flags = ['ffmpeg', '-i', `${input}`]
+
+  // Set format flags if clip options are set.
+  if (options.clip) {
+    const formatFlags = setFormatFlags(options)
+    flags.push(...formatFlags)
+  }
+
+  // Set video flags.
+  const videoFlags = setVideoFlags(options)
+  flags.push(...videoFlags)
+
+  // Set video filters.
+  const vf = setVideoFilters(options)
+  if (vf) {
+    flags.push(`-vf "${vf}"`)
+  }
+
+  // Set audio flags.
+  const audioFlags = setAudioFlags(options)
+  flags.push(...audioFlags)
+
+  // Set audio filters.
+  const af = setAudioFilters(options)
+  if (af) {
+    flags.push(`-af "${af}"`)
+  }
+
+  // Set 2 pass output if option is set.
+  if (options.pass === '2') {
+    const copy = set2Pass(flags, options)
+    flags.push(...copy)
+  }
+
+  // Extra flags.
+  const extra = []
+
+  if (options.extra?.includes('f') && container) {
+    const arg = ['-f', container]
+    extra.push(...arg)
+  }
+
+  if (options.extra?.includes('y')) {
+    const arg = ['-y']
+    extra.push(...arg)
+  }
+
+  if (options.extra?.includes('n')) {
+    const arg = ['-n']
+    extra.push(...arg)
+  }
+
+  if (options.extra?.includes('progress')) {
+    const arg = ['-progress pipe:1']
+    extra.push(...arg)
+  }
+
+  if (options.extra?.includes('hide_banner')) {
+    const arg = ['-hide_banner']
+    extra.push(...arg)
+  }
+
+  if (options.extra?.includes('report')) {
+    const arg = ['-report']
+    extra.push(...arg)
+  }
+
+  if (options.loglevel !== 'none') {
+    const arg = ['-loglevel', options.loglevel]
+    extra.push(...arg)
+  }
+
+  // Set output.
+  extra.push(output)
+
+  // Push all flags and join them as a space separated string.
+  flags.push(...shouldBeToBe(extra))
+  return flags
+}
+
 // Build an array of FFmpeg from options parameter.
 function build(opt: IFFmpegOptions): string {
   const options = opt || {}
@@ -390,4 +475,5 @@ function shouldBeToBe<T>(values: (T | undefined)[]) {
 
 export default {
   build,
+  flags,
 }

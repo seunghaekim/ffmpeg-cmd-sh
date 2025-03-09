@@ -4,7 +4,7 @@ const useControlStore = defineStore('control', {
   state: () => ({
     wsConnected: false,
     isEncoding: false,
-    ffmpegEnabled: false,
+    wasmEnabled: false,
 
     showJson: false,
   }),
@@ -17,8 +17,8 @@ const useControlStore = defineStore('control', {
     setIsEncoding(newValue: boolean) {
       this.isEncoding = newValue
     },
-    setFfmpegEnabled(newValue: boolean) {
-      this.ffmpegEnabled = newValue
+    setwasmEnabled(newValue: boolean) {
+      this.wasmEnabled = newValue
     },
   },
 })

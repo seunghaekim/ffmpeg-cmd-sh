@@ -1,30 +1,18 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import pkgInfo from '../package.json'
-import useControlStore from './stores/control'
-import QueueComponent from './components/QueueComponent.vue'
+import useFFmpegStore from './stores/ffmpeg'
+import WasmLoader from './components/WasmLoader.vue'
 
-const commonStore = useControlStore()
+const ffmpegStore = useFFmpegStore()
+
+const ffmpegStatus = computed(() => {
+  return ffmpegStore.status
+})
 
 const name = pkgInfo.name
 const version = pkgInfo.version
 const tabIndex = ref(0)
-
-const wsReady = computed(() => {
-  return commonStore.wsConnected
-})
-
-const isEncoding = computed(() => {
-  return commonStore.isEncoding
-})
-
-const ffmpegdEnabled = computed(() => {
-  return commonStore.ffmpegEnabled
-})
-
-const onEncode = () => {
-  tabIndex.value++
-}
 </script>
 
 <template>
@@ -43,16 +31,17 @@ const onEncode = () => {
     <div id="app" class="container">
       <b-tabs align="right" content-class="mt-4" v-model="tabIndex">
         <b-tab title="Builder">
-          <router-view @onEncode="onEncode" />
+          <router-view />
         </b-tab>
-        <b-tab title="Queue" v-if="ffmpegdEnabled">
-          <template #title> <b-spinner small v-if="isEncoding"></b-spinner> Queue </template>
-          <QueueComponent />
-        </b-tab>
-        <b-tab v-if="ffmpegdEnabled" disabled>
+        <b-tab disabled>
           <template #title>
-            <code v-if="wsReady"><span class="small">🟢</span> ffmpegd online</code>
-            <code v-else><span class="small">🔴</span> ffmpegd offline</code>
+            <code v-if="ffmpegStatus === 'ready'"><span class="small">🟢</span> wasm online</code>
+            <code v-if="ffmpegStatus === 'loading'"
+              ><span class="small">🟡</span> wasm loading <b-spinner small></b-spinner
+            ></code>
+            <code v-if="['idle', 'error'].includes(ffmpegStatus)"
+              ><span class="small">🔴</span> wasm offline</code
+            >
           </template>
         </b-tab>
       </b-tabs>
@@ -72,6 +61,9 @@ const onEncode = () => {
         </ul>
       </div>
     </footer>
+    <Suspense>
+      <WasmLoader />
+    </Suspense>
   </div>
 </template>
 
